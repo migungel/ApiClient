@@ -1,11 +1,17 @@
 package com.prueba.ApiClient.Entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "personas")
-//@AllArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Persona {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false, nullable = false, unique = true)
