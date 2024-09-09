@@ -1,5 +1,6 @@
 package com.prueba.ApiClient.Service;
 
+import com.prueba.ApiClient.DTO.Cliente.ClienteRequest;
 import com.prueba.ApiClient.Entity.Cliente;
 import com.prueba.ApiClient.Repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,23 +31,21 @@ public class ClienteService {
                 .orElseThrow(() -> new NoSuchElementException("Cliente no encontrado con el ID: " + clienteid));
     }
 
-    public Cliente createCliente(Cliente cliente) {
+    public Cliente createCliente(ClienteRequest cliente) {
         if (cliente == null) {
             throw new IllegalArgumentException("Cliente no puede ser nulo");
         }
 
-        if (cliente.getClienteid() != null && clienteRepository.existsById(cliente.getClienteid())) {
-            throw new IllegalArgumentException("Ya existe un cliente con el ID: " + cliente.getClienteid());
-        }
+        Cliente clienteEntity = new Cliente(cliente);
 
         try {
-            return clienteRepository.save(cliente);
+            return clienteRepository.save(clienteEntity);
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Error al guardar el cliente: " + e.getMessage(), e);
         }
     }
 
-    public Cliente updateCliente(Long clienteid, Cliente detallesCliente) {
+    public Cliente updateCliente(Long clienteid, ClienteRequest detallesCliente) {
         if (!clienteRepository.existsById(clienteid)) {
             throw new NoSuchElementException("Cliente no encontrado con el ID: " + clienteid);
         }

@@ -1,5 +1,6 @@
 package com.prueba.ApiClient.Service;
 
+import com.prueba.ApiClient.DTO.Movimientos.MovimientosRequest;
 import com.prueba.ApiClient.Entity.Cuenta;
 import com.prueba.ApiClient.Entity.Movimientos;
 import com.prueba.ApiClient.Repository.CuentaRepository;
@@ -34,13 +35,9 @@ public class MovimientosService {
                 .orElseThrow(() -> new NoSuchElementException("Movimiento no encontrado con el ID: " + id));
     }
 
-    public Movimientos createMovimiento(Movimientos movimiento) {
+    public Movimientos createMovimiento(MovimientosRequest movimiento) {
         if (movimiento == null) {
             throw new IllegalArgumentException("Movimiento no puede ser nulo");
-        }
-
-        if (movimiento.getId() != null && movimientosRepository.existsById(movimiento.getId())) {
-            throw new IllegalArgumentException("Ya existe un movimiento con el ID: " + movimiento.getId());
         }
 
         if (movimiento.getNumeroCuenta() == null || movimiento.getNumeroCuenta().isEmpty()) {
@@ -71,15 +68,16 @@ public class MovimientosService {
         }
 
         movimiento.setSaldo(saldoActual);
+        Movimientos movEntity = new Movimientos(movimiento);
 
         try {
-            return movimientosRepository.save(movimiento);
+            return movimientosRepository.save(movEntity);
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Error al guardar el movimiento: " + e.getMessage(), e);
         }
     }
 
-    public Movimientos updateMovimiento(Long movimientoId, Movimientos detallesMovimiento) {
+    public Movimientos updateMovimiento(Long movimientoId, MovimientosRequest detallesMovimiento) {
         Movimientos movimientoExistente = movimientosRepository.findById(movimientoId)
                 .orElseThrow(() -> new NoSuchElementException("Movimiento no encontrado con el ID: " + movimientoId));
 

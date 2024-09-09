@@ -1,5 +1,6 @@
 package com.prueba.ApiClient.Controller;
 
+import com.prueba.ApiClient.DTO.Movimientos.MovimientosRequest;
 import com.prueba.ApiClient.Entity.Cuenta;
 import com.prueba.ApiClient.Entity.Movimientos;
 import com.prueba.ApiClient.Service.MovimientosService;
@@ -52,7 +53,7 @@ public class MovimientosController {
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     })
     @PostMapping
-    public ResponseEntity<Movimientos> crearMovimiento(@RequestBody Movimientos movimiento) {
+    public ResponseEntity<Movimientos> crearMovimiento(@RequestBody MovimientosRequest movimiento) {
         Movimientos nuevoMovimiento = movimientosService.createMovimiento(movimiento);
         return new ResponseEntity<>(nuevoMovimiento, HttpStatus.CREATED);
     }
@@ -64,7 +65,7 @@ public class MovimientosController {
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Movimientos> actualizarMovimiento(@PathVariable Long id, @RequestBody Movimientos detallesMovimiento) {
+    public ResponseEntity<Movimientos> actualizarMovimiento(@PathVariable Long id, @RequestBody MovimientosRequest detallesMovimiento) {
         Movimientos movimientoActualizado = movimientosService.updateMovimiento(id, detallesMovimiento);
         return ResponseEntity.ok(movimientoActualizado);
     }

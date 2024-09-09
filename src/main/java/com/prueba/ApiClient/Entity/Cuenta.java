@@ -1,5 +1,7 @@
 package com.prueba.ApiClient.Entity;
 
+import com.prueba.ApiClient.DTO.Cuenta.CuentaRequest;
+import com.prueba.ApiClient.DTO.Movimientos.MovimientosRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +31,13 @@ public class Cuenta {
     private Double saldoInicial;
 
     @Column(name = "estado")
-    private String estado;
+    private Boolean estado;
+
+    public Cuenta(CuentaRequest data) {
+        this.numeroCuenta = data.getNumeroCuenta();
+        this.tipoCuenta = data.getTipoCuenta();
+        this.saldoInicial = data.getSaldoInicial();
+        this.estado = data.getEstado();
+    }
 
 }

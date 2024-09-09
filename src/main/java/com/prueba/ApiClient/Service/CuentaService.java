@@ -1,6 +1,8 @@
 package com.prueba.ApiClient.Service;
 
+import com.prueba.ApiClient.DTO.Cuenta.CuentaRequest;
 import com.prueba.ApiClient.Entity.Cuenta;
+import com.prueba.ApiClient.Entity.Movimientos;
 import com.prueba.ApiClient.Repository.CuentaRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,27 +38,25 @@ public class CuentaService {
 //    }
 
 
-    public Cuenta createCuenta(Cuenta cuenta) {
+    public Cuenta createCuenta(CuentaRequest cuenta) {
         if (cuenta == null) {
             throw new IllegalArgumentException("Cuenta no puede ser nula");
-        }
-
-        if (cuenta.getId() != null && cuentaRepository.existsById(cuenta.getId())) {
-            throw new IllegalArgumentException("Ya existe una cuenta con el id: " + cuenta.getId());
         }
 
         if (cuentaRepository.findByNumeroCuenta(cuenta.getNumeroCuenta()).isPresent()) {
             throw new IllegalArgumentException("Ya existe una cuenta con el número de cuenta: " + cuenta.getNumeroCuenta());
         }
 
+        Cuenta cuentaEntity = new Cuenta(cuenta);
+
         try {
-            return cuentaRepository.save(cuenta);
+            return cuentaRepository.save(cuentaEntity);
         } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Error al guardar la cuenta: " + e.getMessage(), e);
         }
     }
 
-    public Cuenta updateCuenta(Long id, Cuenta detallesCuenta) {
+    public Cuenta updateCuenta(Long id, CuentaRequest detallesCuenta) {
         if (!cuentaRepository.existsById(id)) {
             throw new NoSuchElementException("Cuenta no encontrada con el ID: " + id);
         }
@@ -64,6 +64,7 @@ public class CuentaService {
         Cuenta cuentaExistente = cuentaRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Cuenta no encontrada con el ID: " + id));
 
+        cuentaExistente.setNumeroCuenta(detallesCuenta.getNumeroCuenta());
         cuentaExistente.setTipoCuenta(detallesCuenta.getTipoCuenta());
         cuentaExistente.setSaldoInicial(detallesCuenta.getSaldoInicial());
         cuentaExistente.setEstado(detallesCuenta.getEstado());

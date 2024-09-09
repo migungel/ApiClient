@@ -1,5 +1,6 @@
 package com.prueba.ApiClient.Controller;
 
+import com.prueba.ApiClient.DTO.Cliente.ClienteRequest;
 import com.prueba.ApiClient.Entity.Cliente;
 import com.prueba.ApiClient.Service.ClienteService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +52,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     })
     @PostMapping
-    public ResponseEntity<Cliente> crearCliente(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> crearCliente(@RequestBody ClienteRequest cliente) {
         Cliente nuevoCliente = clienteService.createCliente(cliente);
         return new ResponseEntity<>(nuevoCliente, HttpStatus.CREATED);
     }
@@ -63,7 +64,7 @@ public class ClienteController {
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     })
     @PutMapping("/{clienteid}")
-    public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long clienteid, @RequestBody Cliente detallesCliente) {
+    public ResponseEntity<Cliente> actualizarCliente(@PathVariable Long clienteid, @RequestBody ClienteRequest detallesCliente) {
         Cliente clienteActualizado = clienteService.updateCliente(clienteid, detallesCliente);
         return ResponseEntity.ok(clienteActualizado);
     }

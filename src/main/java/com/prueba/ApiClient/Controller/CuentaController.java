@@ -1,5 +1,6 @@
 package com.prueba.ApiClient.Controller;
 
+import com.prueba.ApiClient.DTO.Cuenta.CuentaRequest;
 import com.prueba.ApiClient.Entity.Cuenta;
 import com.prueba.ApiClient.Service.CuentaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -57,7 +58,7 @@ public class CuentaController {
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     })
     @PostMapping
-    public ResponseEntity<Cuenta> crearCuenta(@RequestBody Cuenta cuenta) {
+    public ResponseEntity<Cuenta> crearCuenta(@RequestBody CuentaRequest cuenta) {
         Cuenta nuevaCuenta = cuentaService.createCuenta(cuenta);
         return new ResponseEntity<>(nuevaCuenta, HttpStatus.CREATED);
     }
@@ -69,7 +70,7 @@ public class CuentaController {
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Cuenta> actualizarCuenta(@PathVariable Long id, @RequestBody Cuenta detallesCuenta) {
+    public ResponseEntity<Cuenta> actualizarCuenta(@PathVariable Long id, @RequestBody CuentaRequest detallesCuenta) {
         Cuenta cuentaActualizada = cuentaService.updateCuenta(id, detallesCuenta);
         return ResponseEntity.ok(cuentaActualizada);
     }
