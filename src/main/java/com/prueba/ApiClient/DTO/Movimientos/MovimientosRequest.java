@@ -14,8 +14,6 @@ import java.time.LocalDateTime;
 public class MovimientosRequest {
 
     private String numeroCuenta;
-    private LocalDateTime fecha;
     private String tipoMovimiento;
     private Double valor;
-    private Double saldo;
 }

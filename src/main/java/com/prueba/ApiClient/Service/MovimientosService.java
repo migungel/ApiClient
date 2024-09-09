@@ -67,8 +67,9 @@ public class MovimientosService {
             saldoActual -= movimiento.getValor();
         }
 
-        movimiento.setSaldo(saldoActual);
+        //movimiento.setSaldo(saldoActual);
         Movimientos movEntity = new Movimientos(movimiento);
+        movEntity.setSaldo(saldoActual);
 
         try {
             return movimientosRepository.save(movEntity);
@@ -77,15 +78,15 @@ public class MovimientosService {
         }
     }
 
-    public Movimientos updateMovimiento(Long movimientoId, MovimientosRequest detallesMovimiento) {
+    public Movimientos updateMovimiento(Long movimientoId, Movimientos detallesMovimiento) {
         Movimientos movimientoExistente = movimientosRepository.findById(movimientoId)
                 .orElseThrow(() -> new NoSuchElementException("Movimiento no encontrado con el ID: " + movimientoId));
 
         movimientoExistente.setTipoMovimiento(detallesMovimiento.getTipoMovimiento());
         movimientoExistente.setValor(detallesMovimiento.getValor());
-        movimientoExistente.setSaldo(detallesMovimiento.getSaldo());
-        movimientoExistente.setFecha(detallesMovimiento.getFecha());
         movimientoExistente.setNumeroCuenta(detallesMovimiento.getNumeroCuenta());
+        movimientoExistente.setFecha(detallesMovimiento.getFecha());
+        movimientoExistente.setSaldo(detallesMovimiento.getSaldo());
 
         return movimientosRepository.save(movimientoExistente);
     }

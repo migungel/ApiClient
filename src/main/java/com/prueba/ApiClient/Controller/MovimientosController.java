@@ -65,7 +65,7 @@ public class MovimientosController {
             @ApiResponse(responseCode = "400", description = "Datos de entrada inválidos")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Movimientos> actualizarMovimiento(@PathVariable Long id, @RequestBody MovimientosRequest detallesMovimiento) {
+    public ResponseEntity<Movimientos> actualizarMovimiento(@PathVariable Long id, @RequestBody Movimientos detallesMovimiento) {
         Movimientos movimientoActualizado = movimientosService.updateMovimiento(id, detallesMovimiento);
         return ResponseEntity.ok(movimientoActualizado);
     }

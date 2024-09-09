@@ -40,9 +40,8 @@ public class Movimientos {
 
     public Movimientos(MovimientosRequest data) {
         this.numeroCuenta = data.getNumeroCuenta();
-        this.fecha = data.getFecha();
+        this.fecha = LocalDateTime.now();
         this.tipoMovimiento = data.getTipoMovimiento();
         this.valor = data.getValor();
-        this.saldo = data.getSaldo();
     }
 }
